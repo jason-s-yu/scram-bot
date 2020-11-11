@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "globals": {
+    "console": false,
+    "module": false,
+    "__dirname": false
+  },
+  "env": {
+    "node": true,
+    "jest": true,
+    "es6": true,
+    "browser": true,
+    "amd": true,
+    "mocha": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "none"
+      }
+    ],
+    "prefer-template": "warn",
+    "no-console": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "eqeqeq": ["error", "always", { "null": "never" }]
+  }
+}

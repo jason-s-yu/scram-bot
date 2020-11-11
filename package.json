@@ -1,0 +1,10 @@
+{
+  "name": "scram-bot",
+  "version": "0.1.0",
+  "description": "Verification, registration, virtual hospitality interface, and utility bot for the 2020 Southern California Regional Amici Madness convention",
+  "main": "index.js",
+  "repository": "https://github.com/jason-s-yu/scram-bot",
+  "author": "Jason Yu <consul@uhsjcl.com> (https://uhsjcl.com/)",
+  "license": "UNLICENSED",
+  "private": true
+}
