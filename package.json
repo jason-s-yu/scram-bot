@@ -33,6 +33,7 @@
     "winston": "^3.3.3"
   },
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "build": "gulp"
   }
 }
