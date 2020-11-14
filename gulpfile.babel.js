@@ -15,11 +15,17 @@ gulp.task('config', () => {
     .pipe(gulp.dest(`${dir.build}/src/config/`));
 });
 
+gulp.task('init', () => {
+  const result = gulp.src('prisma/.env')
+    .pipe(gulp.dest('build'));
+  return result;
+});
+
 gulp.task('server', () => {
   let entry = gulp.src(`${dir.src}/bot.ts`)
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}/${dir.src}`));
-  let everything_else = gulp.src('./*(!(node_modules|tests))/**/*.ts')
+  let everything_else = gulp.src('./*(!(node_modules|tests|.git))/**/*.ts')
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}`));
   return merge(entry, everything_else);

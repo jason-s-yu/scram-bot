@@ -23,19 +23,22 @@ clone:
 server:
   host:
     from_secret: host
-  user:
-    from_secret: user
+  user: scram-bot
   ssh_key:
     from_secret: key
 
 trigger:
   branch:
     - master
+  event:
+    - push
+    - promote
 
 steps:
   - name: checkout and pull
     commands:
       - cd /home/scram-bot/bot-prod
+      - git checkout master
       - git pull
   - name: deploy
     commands:
