@@ -8,6 +8,7 @@ services:
     image: scrambot:latest
   postgres:
     container_name: postgresql
+    image: postgres:13-alpine
     restart: always
     ports:
       - '5432:5432'
