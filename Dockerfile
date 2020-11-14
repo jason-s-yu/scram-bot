@@ -5,6 +5,9 @@ ENTRYPOINT ["/sbin/tini", "--"]
 
 COPY package.json .
 
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
+
 # --------------------------
 FROM base AS dependencies
 
