@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: anita:latest
+    image: scrambot:latest
   postgres:
     container_name: postgresql
     restart: always
