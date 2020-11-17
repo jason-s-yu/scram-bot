@@ -15,6 +15,7 @@
     "@babel/register": "^7.12.1",
     "@prisma/cli": "^2.11.0",
     "@types/node": "^14.14.7",
+    "@types/winston": "^2.4.4",
     "core-js": "^3.7.0",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
@@ -34,6 +35,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "build": "gulp"
+    "build": "gulp",
+    "serve": "node dist/src/bot"
   }
 }

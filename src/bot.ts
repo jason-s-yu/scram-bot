@@ -3,7 +3,7 @@ import { CommandoClient } from 'discord.js-commando';
 import { logger } from './utils';
 import dotenv from 'dotenv';
 import path from 'path';
-import { TextChannel } from 'discord.js';
+import { GuildMember, Message } from 'discord.js';
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const { PREFIX, OWNER, BOT_TOKEN } = process.env;
 
 const guild = '762785723669151764';
 
-const client = new CommandoClient({
+const client: CommandoClient = new CommandoClient({
   commandPrefix: PREFIX,
   owner: OWNER
 })
@@ -23,14 +23,14 @@ client.once('ready', () => {
   // (client.channels.cache.get('762785723669151770') as TextChannel).send('Hello, <@390353095298777091>');
 });
 
-client.on('guildMemberAdd', member => {
+client.on('guildMemberAdd', (member: GuildMember) => {
   member.send(`Welcome to the **SCRAM 2020** Discord server.`);
   member.send(`To authenticate yourself, please send me the fourteen (14) digit code sent to you in the welcome email.`);
 });
 
-const registered = [];
+const registered: string[] = [];
 
-client.on('message', async msg => {
+client.on('message', async (msg: Message) => {
   if (msg.author.bot) return;
   console.log('msg');
 

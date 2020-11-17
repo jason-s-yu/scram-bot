@@ -5,30 +5,32 @@ import merge from 'merge-stream';
 
 const dir = {
   src: 'src',
-  build: 'build'
+  build: 'dist'
 };
 
 gulp.task('clean', () => del([ dir.build ]));
 
-gulp.task('config', () => {
-  return gulp.src('./src/config/*.json')
-    .pipe(gulp.dest(`${dir.build}/src/config/`));
+gulp.task('envs', () => {
+  const prismaEnv = gulp.src('prisma/.env')
+    .pipe(gulp.dest(`${dir.build}/prisma`));
+  // const projectEnv = gulp.src('.env')
+  //   .pipe(gulp.dest(`${dir.build}`));
+  return prismaEnv;
 });
 
-gulp.task('init', () => {
-  const result = gulp.src('prisma/.env')
-    .pipe(gulp.dest('build'));
-  return result;
+gulp.task('dirs', () => {
+  return gulp.src('*.*', { read: false })
+    .pipe(gulp.dest(`${dir.build}/${dir.src}/commands`));
 });
 
 gulp.task('server', () => {
   let entry = gulp.src(`${dir.src}/bot.ts`)
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}/${dir.src}`));
-  let everything_else = gulp.src('./*(!(node_modules|tests|.git))/**/*.ts')
+  let everything_else = gulp.src('./*(!(node_modules|prod_modules|tests|.git))/**/*.ts')
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}`));
   return merge(entry, everything_else);
 });
 
-gulp.task('default', gulp.series('clean', 'server', 'config'));
+gulp.task('default', gulp.series('clean', 'dirs', 'server', 'envs'));
