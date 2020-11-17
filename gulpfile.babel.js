@@ -10,13 +10,13 @@ const dir = {
 
 gulp.task('clean', () => del([ dir.build ]));
 
-gulp.task('envs', () => {
+/* gulp.task('envs', () => {
   const prismaEnv = gulp.src('prisma/.env')
     .pipe(gulp.dest(`${dir.build}/prisma`));
-  // const projectEnv = gulp.src('.env')
-  //   .pipe(gulp.dest(`${dir.build}`));
-  return prismaEnv;
-});
+  const projectEnv = gulp.src('.env')
+    .pipe(gulp.dest(`${dir.build}`));
+  return merge(prismaEnv, projectEnv);
+}); */
 
 gulp.task('dirs', () => {
   return gulp.src('*.*', { read: false })

@@ -13,7 +13,7 @@
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
-    "@prisma/cli": "^2.11.0",
+    "@prisma/cli": "2.11.0",
     "@types/node": "^14.14.7",
     "@types/winston": "^2.4.4",
     "core-js": "^3.7.0",
@@ -28,14 +28,17 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
+    "@prisma/client": "2.11.0",
     "discord.js": "^12.4.1",
     "discord.js-commando": "discordjs/Commando",
     "dotenv": "^8.2.0",
+    "path": "^0.12.7",
     "winston": "^3.3.3"
   },
   "scripts": {
     "dev": "nodemon",
     "build": "gulp",
-    "serve": "node dist/src/bot"
+    "serve": "node dist/src/bot",
+    "postinstall": "npx prisma generate"
   }
 }
