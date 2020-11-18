@@ -37,12 +37,12 @@ trigger:
 steps:
   - name: checkout and pull
     commands:
-      - cd /home/scram-bot/bot-prod
+      - cd /home/jasonyu/prod/scram-bot
       - git checkout master
       - git pull
   - name: deploy
     commands:
-      - cd /home/scram-bot/bot-prod
+      - cd /home/jasonyu/prod/scram-bot
       - docker-compose build
       - docker-compose down
       - docker-compose up -d
