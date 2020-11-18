@@ -33,4 +33,4 @@ gulp.task('server', () => {
   return merge(entry, everything_else);
 });
 
-gulp.task('default', gulp.series('clean', 'dirs', 'server', 'envs'));
+gulp.task('default', gulp.series('clean', 'dirs', 'server'));

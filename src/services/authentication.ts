@@ -4,9 +4,12 @@ import { scramGuild, prisma } from '../bot';
 import { CommandoClient } from 'discord.js-commando';
 
 export const onMemberJoinForAuthentication = (client: CommandoClient) => {
-  client.on('guildMemberAdd', (member: GuildMember) => {
+  client.on('guildMemberAdd', async (member: GuildMember) => {
     member.send(`Welcome to the **SCRAM 2020** Discord server.`);
-    member.send(`To authenticate yourself, please send me the five (5) digit code sent to you in the welcome email.`);
+    const userAlreadyAuthenticated = await getUserByDiscordId(member.id);
+    if (!userAlreadyAuthenticated) {
+      member.send(`To authenticate yourself, please send me the five (5) digit code sent to you in the welcome email.`);
+    }
   });
 
   client.on('message', async (msg: Message) => {
@@ -23,15 +26,17 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
         where: { joinCode: code }
       });
 
-      if (code === dbUser.joinCode) {
+      if (dbUser) {
         if (dbUser.joined) {
-          logger.info('Duplicate authentication attempt detected.');
+          logger.warn(`${msg.author.tag} tried to authenticate with an already-verified user (Code: ${code} is associated with ${dbUser.email}).`);
+          msg.reply(`You have already authenticated your Discord account. If you believe this is an error, contact an administrator.`);
           return;
         }
-        const { firstName, lastName, school, relation } = dbUser;
-        
-        await guildMember.roles.add('771900750073823253');                                          // add "Amici" role
-        await guildMember.setNickname(`${firstName} ${lastName}${relation === 'Sponsor' ? ' ' : ''}`);                                  // set nickname to first last
+        const { firstName, lastName, school } = dbUser;
+        const relation = dbUser.relation.trim() === 'Student' ? 'Amici' : 'Student';
+        const relationRole: Role = scramGuild.roles.cache.find(role => role.name === relation.trim());
+        await guildMember.roles.add(relationRole.id);                                               // add proper role (Amici or Sponsor)
+        await guildMember.setNickname(`${firstName} ${lastName}`);                                  // set nickname to first last
         const schoolRole: Role = scramGuild.roles.cache.find(role => role.name === school.trim());  // get school role
         await guildMember.roles.add(schoolRole.id);                                                 // assign school role
         await msg.reply(`You have been authenticated. Welcome, ${firstName}!`);                     // reply welcome message

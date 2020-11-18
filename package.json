@@ -1,6 +1,6 @@
 {
   "name": "scram-bot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Verification, registration, virtual hospitality interface, and utility bot for the 2020 Southern California Regional Amici Madness convention",
   "main": "index.js",
   "repository": "https://github.com/jason-s-yu/scram-bot",
@@ -29,9 +29,11 @@
   },
   "dependencies": {
     "@prisma/client": "2.11.0",
+    "@types/node-mailjet": "^3.3.4",
     "discord.js": "^12.4.1",
     "discord.js-commando": "discordjs/Commando",
     "dotenv": "^8.2.0",
+    "node-mailjet": "^3.3.1",
     "path": "^0.12.7",
     "winston": "^3.3.3"
   },
