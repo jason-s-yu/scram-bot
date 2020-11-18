@@ -47,7 +47,6 @@ export default class StatsCommand extends Command {
       .setURL('https://uhsjcl.com')
       .addFields(
         { name: 'Total Joined', value: `\`${joined}\``, inline: true },
-        { name: '|', value: `|`, inline: true },
         { name: 'Total Registered', value: `\`${total}\``, inline: true },
         { name: 'Percentage Joined', value: `\`${frac}\%\`` }
       )
