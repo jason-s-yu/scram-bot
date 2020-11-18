@@ -41,6 +41,32 @@ export default class StatsCommand extends Command {
 
     const frac = Number(joined / total * 100).toFixed(2);
 
+    const options = {
+      'type': 'outlabeledPie',
+      'data': {
+        'labels': ['REGISTERED NOT JOINED', 'JOINED'],
+        'datasets': [{
+            'backgroundColor': ['#FF3784', '#4BC0C0'],
+            'data': [total - joined, joined]
+        }]
+      },
+      'options': {
+        'plugins': {
+          'legend': false,
+          'outlabels': {
+            'text': '%v %l (%p)',
+            'color': 'white',
+            'stretch': 35,
+            'font': {
+              'resizable': true,
+              'minSize': 12,
+              'maxSize': 18
+            }
+          }
+        }
+      }
+    };
+
     const embed = new MessageEmbed()
       .setColor('#7851a9')
       .setTitle(`Statistics for ${school}`)
@@ -50,6 +76,7 @@ export default class StatsCommand extends Command {
         { name: 'Total Registered', value: `\`${total}\``, inline: true },
         { name: 'Percentage Joined', value: `\`${frac}\%\`` }
       )
+      .setImage(`https://quickchart.io/chart?bkg=transparent&c=${JSON.stringify(options)}`)
       .setTimestamp();
 
     return message.channel.send(embed);
