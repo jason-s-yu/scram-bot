@@ -23,7 +23,7 @@ clone:
 server:
   host:
     from_secret: host
-  user: scram-bot
+  user: jasonyu
   ssh_key:
     from_secret: key
 
