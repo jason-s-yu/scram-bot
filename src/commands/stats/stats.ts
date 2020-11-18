@@ -28,7 +28,6 @@ export default class StatsCommand extends Command {
         relation: 'Student'
       }
     })).length;
-    logger.info(total);
     if (!(total > 0)) {
       return message.say(`School \`${school}\` does not exist in the database.`);
     }
