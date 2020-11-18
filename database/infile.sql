@@ -27,8 +27,8 @@ CREATE TABLE public.users (
   "firstName"         varchar(255)  NOT NULL,
   "lastName"          varchar(255)  NOT NULL,
   relation            char(7)       NOT NULL,
-  school              char(255)     NOT NULL,
-  teacher             char(255),
+  school              varchar(255)  NOT NULL,
+  teacher             varchar(255),
   grade               smallint,
   "latinLevel"        varchar(7),
   "joinCode"          varchar(6)    UNIQUE DEFAULT random_string(5),
@@ -36,4 +36,4 @@ CREATE TABLE public.users (
   "discordId"         varchar(19)   UNIQUE
 );
 
-COPY users(id, "registrationDate", email, "phoneNumber", "firstName", "lastName", relation, school, teacher, grade, "latinLevel") FROM '/docker-entrypoint-initdb.d/2020_SCRAM_Registration-db_infile.csv' DELIMITER ',' CSV HEADER;
+COPY users(email, "registrationDate", "phoneNumber", "firstName", "lastName", relation, school, teacher, grade, "latinLevel") FROM '/docker-entrypoint-initdb.d/2020_SCRAM_Registration-db_infile.csv' DELIMITER ',' CSV HEADER;

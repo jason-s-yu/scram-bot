@@ -33,13 +33,21 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
           return;
         }
         const { firstName, lastName, school } = dbUser;
-        const relation = dbUser.relation.trim() === 'Student' ? 'Amici' : 'Student';
+        const relation = dbUser.relation.trim() === 'Student' ? 'Amici' : 'Sponsor';
         const relationRole: Role = scramGuild.roles.cache.find(role => role.name === relation.trim());
         await guildMember.roles.add(relationRole.id);                                               // add proper role (Amici or Sponsor)
         await guildMember.setNickname(`${firstName} ${lastName}`);                                  // set nickname to first last
         const schoolRole: Role = scramGuild.roles.cache.find(role => role.name === school.trim());  // get school role
         await guildMember.roles.add(schoolRole.id);                                                 // assign school role
         await msg.reply(`You have been authenticated. Welcome, ${firstName}!`);                     // reply welcome message
+        await prisma.users.update({
+          where: {
+            joinCode: code
+          },
+          data: {
+            joined: true
+          }
+        });
         logger.info(`Successfully authorized ${msg.author.tag}.`);
       } else {
         await msg.reply('Your authentication code was invalid. Please try again');

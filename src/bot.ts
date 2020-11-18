@@ -81,6 +81,8 @@ client.on('error', console.error);
 client.registry
   .registerDefaultTypes()
   .registerGroups([
+    ['stats', 'Join Statistics Commands'],
+    ['code', 'Join Code Commands']
   ])
   .registerDefaultGroups()
   .registerCommandsIn({
