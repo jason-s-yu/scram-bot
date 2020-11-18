@@ -1,7 +1,7 @@
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { logger } from '../../utils';
 import { prisma } from '../../bot';
-import { MessageEmbed } from 'discord.js';
+import { MessageAttachment, MessageEmbed } from 'discord.js';
 
 export default class StatsCommand extends Command {
   constructor(client) {
@@ -76,7 +76,7 @@ export default class StatsCommand extends Command {
         { name: 'Total Registered', value: `\`${total}\``, inline: true },
         { name: 'Percentage Joined', value: `\`${frac}\%\`` }
       )
-      .setImage(`https://quickchart.io/chart?bkg=transparent&c=${JSON.stringify(options)}`)
+      // .attachFiles(new MessageAttachment(new Buffer()))
       .setTimestamp();
 
     return message.channel.send(embed);
