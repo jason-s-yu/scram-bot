@@ -1,6 +1,7 @@
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { logger } from '../../utils';
 import { prisma } from '../../bot';
+import { MessageEmbed } from 'discord.js';
 
 export default class StatsCommand extends Command {
   constructor(client) {
@@ -41,6 +42,18 @@ export default class StatsCommand extends Command {
 
     const frac = Number(joined / total * 100).toFixed(2);
 
-    return message.say(`\`${joined}\` of the total \`${total}\` students from \`${school}\` have joined **(${frac}\%)**.`);
+    const embed = new MessageEmbed()
+      .setColor('#7851a9')
+      .setTitle(`Statistics for ${school}`)
+      .setURL('https://uhsjcl.com')
+      .addFields(
+        { name: 'Total Joined', value: `\`${joined}\``, inline: true },
+        { name: '|', value: `|`, inline: true },
+        { name: 'Total Registered', value: `\`${total}\``, inline: true },
+        { name: 'Percentage Joined', value: `\`${frac}\%\`` }
+      )
+      .setTimestamp();
+
+    return message.channel.send(embed);
   }
 }
