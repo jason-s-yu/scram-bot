@@ -23,7 +23,7 @@ export default class SetDiscordAccount extends Command {
           type: 'string'
         }
       ],
-      ownerOnly: true
+      userPermissions: ['ADMINISTRATOR']
     });
   }
 
@@ -44,7 +44,7 @@ export default class SetDiscordAccount extends Command {
       if (guildMember.id !== scramGuild.owner.id) {
         await guildMember.setNickname(`${user.firstName} ${user.lastName}`);                              // set nickname to first last
       }
-      const relation = user.relation.trim() === 'Student' ? 'Amici' : 'Sponsor';
+      const relation = (user.relation.trim() === 'Student' || user.relation.trim() === 'Volunteer') ? 'Amici' : 'Sponsor';
       const relationRole: Role = scramGuild.roles.cache.find(role => role.name === relation.trim());
       await guildMember.roles.add(relationRole.id);                                                     // add proper role (Amici or Sponsor)
       const schoolRole: Role = scramGuild.roles.cache.find(role => role.name === user.school.trim());   // get school role

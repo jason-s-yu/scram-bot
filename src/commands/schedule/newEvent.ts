@@ -29,7 +29,7 @@ export default class NewEventCommand extends Command {
           default: ''
         }
       ],
-      ownerOnly: true
+      userPermissions: ['ADMINISTRATOR']
     });
   }
 

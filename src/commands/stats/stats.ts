@@ -18,7 +18,8 @@ export default class StatsCommand extends Command {
           type: 'string',
           default: 'all'
         }
-      ]
+      ],
+      userPermissions: ['MANAGE_GUILD']
     });
   }
 

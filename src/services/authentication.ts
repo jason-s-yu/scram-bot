@@ -36,11 +36,11 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
       if (dbUser) {
         if (dbUser.joined) {
           logger.warn(`${msg.author.tag} tried to authenticate with an already-verified user (Code: ${code} is associated with ${dbUser.email}).`);
-          msg.reply(`You have already authenticated your Discord account. If you believe this is an error, contact an administrator.`);
+          msg.reply(`You have already joined and authenticated with your Discord account. If you believe this is an error, contact an administrator.`);
           return;
         }
         const { firstName, lastName, school } = dbUser;
-        const relation = dbUser.relation.trim() === 'Student' ? 'Amici' : 'Sponsor';
+        const relation = (dbUser.relation.trim() === 'Student' || dbUser.relation.trim() === 'Volunteer') ? 'Amici' : 'Sponsor';
         const relationRole: Role = scramGuild.roles.cache.find(role => role.name === relation.trim());
         await guildMember.roles.add(relationRole.id);                                               // add proper role (Amici or Sponsor)
         await guildMember.setNickname(`${firstName} ${lastName}`);                                  // set nickname to first last

@@ -15,7 +15,7 @@ export default class GetCodeCommand extends Command {
           type: 'string'
         }
       ],
-      ownerOnly: true
+      userPermissions: ['ADMINISTRATOR']
     });
   }
 
