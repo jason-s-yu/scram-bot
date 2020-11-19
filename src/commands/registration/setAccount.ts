@@ -28,7 +28,11 @@ export default class SetDiscordAccount extends Command {
   }
 
   run = async (message: CommandoMessage, { email, member }) => {
-    let guildMember = scramGuild.members.cache.get(message.mentions.members.first().user.id);
+    const { mentions } = message;
+    let guildMember;
+    if (mentions) {
+      guildMember = scramGuild.members.cache.get(message.mentions.members.first().user.id);
+    }
     if (!guildMember) {
       guildMember = scramGuild.members.cache.get(member);
     }
