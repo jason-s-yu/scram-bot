@@ -28,9 +28,9 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
     if (msg.channel.type !== 'dm') return;
   
     try {
-      queue[msg.author.id].attempts += 1;
       (msg.author.id in queue) || (queue[msg.author.id] = { attempts: 0, last: Date.now() });
-      if (queue[msg.author.id].attempts > 5) {
+      queue[msg.author.id].attempts += 1;
+      if (queue[msg.author.id].attempts > 6) {
         if (Date.now() - queue[msg.author.id].last > 300000) {
           delete queue[msg.author.id];
         } else {
@@ -73,7 +73,8 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
         await msg.reply('Your authentication code was invalid. Please try again');
       }
     } catch(err) {
-      console.error(err);
+      await msg.reply('An internal error occurred. Please contact a SCRAM administrator');
+      logger.error(err);
     }
   });
 }
