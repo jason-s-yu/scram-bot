@@ -19,7 +19,7 @@ export default class SetDiscordAccount extends Command {
         },
         {
           key: 'member',
-          prompt: 'Tag the user you want to link',
+          prompt: 'Tag the user you want to link or specify their ID',
           type: 'string'
         }
       ],
@@ -28,8 +28,11 @@ export default class SetDiscordAccount extends Command {
   }
 
   run = async (message: CommandoMessage, { email, member }) => {
-    const guildMember = message.guild.members.cache.get(message.mentions.members.first().user.id);
-    if (!guildMember) return message.say('That user does not exist in this server.');
+    let guildMember = scramGuild.members.cache.get(message.mentions.members.first().user.id);
+    if (!guildMember) {
+      guildMember = scramGuild.members.cache.get(member);
+    }
+    if (!guildMember) return message.say('That user does not exist in the SCRAM server.');
     const user = await prisma.user.findOne({ where: { email }});
     if (!user) return message.say(`User with email \`${email}\` not registered.`);
 
