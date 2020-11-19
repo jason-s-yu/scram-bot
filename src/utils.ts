@@ -3,9 +3,10 @@ const { combine, printf } = format;
 
 import dotenv from 'dotenv';
 
-import { prisma } from './bot';
+import { prisma, scramGuild } from './bot';
 import mailjet from 'node-mailjet';
 import sgMail from '@sendgrid/mail';
+import { TextChannel } from 'discord.js';
 
 dotenv.config();
 
@@ -91,6 +92,7 @@ export const sendSendGrid = async (...emails: string[]) => {
 }
 
 export const sendMailjet = async (templateName: ('welcome' | 'correction'), ...emails: string[]) => {
+  const invite = (await (scramGuild.channels.cache.get('778802682185777203') as TextChannel).createInvite({ temporary: true, maxAge: 0 })).url;
   const recipients = [];
   const skipped = [];
   for (const email of emails) {
@@ -102,7 +104,8 @@ export const sendMailjet = async (templateName: ('welcome' | 'correction'), ...e
         Name: `${firstName} ${lastName}`,
         Vars: {
           firstName: firstName,
-          code: joinCode
+          code: joinCode,
+          link: invite
         }
       });
     } else {
