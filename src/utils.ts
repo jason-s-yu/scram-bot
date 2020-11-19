@@ -11,6 +11,11 @@ dotenv.config();
 
 const { SENDGRID_KEY, MAILJET_API_KEY, MAILJET_SECRET_KEY } = process.env;
 
+export const emailTemplates = {
+  'welcome': '1935835',
+  'correction': '1943276'
+};
+
 sgMail.setApiKey(SENDGRID_KEY);
 
 const formatDate = (date: Date) => {
@@ -85,7 +90,7 @@ export const sendSendGrid = async (...emails: string[]) => {
   return `Sent ${success.length} email(s) successfully. Skipped: ${skipped.length > 0 ? skipped : 'none'}.`;
 }
 
-export const sendMailjet = async (...emails: string[]) => {
+export const sendMailjet = async (templateName: ('welcome' | 'correction'), ...emails: string[]) => {
   const recipients = [];
   const skipped = [];
   for (const email of emails) {
@@ -112,7 +117,7 @@ export const sendMailjet = async (...emails: string[]) => {
       FromEmail: 'scram@uhsjcl.com',
       FromName: 'UHS JCL SCRAM',
       Subject: 'Welcome to SCRAM',
-      'Mj-TemplateID': '1935835',
+      'Mj-TemplateID': emailTemplates[templateName],
       'Mj-TemplateLanguage': 'true',
       Recipients: recipients,
       Headers: { 'Reply-To': 'scram@uhsjcl.com' }

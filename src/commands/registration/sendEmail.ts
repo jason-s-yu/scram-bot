@@ -21,7 +21,7 @@ export default class SendEmailsCommand extends Command {
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(...processedEmails);
+      result = await sendMailjet('welcome', ...processedEmails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...processedEmails);

@@ -17,6 +17,11 @@ export default class SendGroupEmailCommand extends Command {
           type: 'string'
         },
         {
+          key: 'template',
+          prompt: 'What template?',
+          oneOf: ['welcome', 'correction']
+        },
+        {
           key: 'method',
           prompt: 'What method?',
           type: 'string',
@@ -27,7 +32,7 @@ export default class SendGroupEmailCommand extends Command {
     });
   }
 
-  run = async (message: CommandoMessage, { school, method }) => {
+  run = async (message: CommandoMessage, { school, template, method }) => {
     logger.info(`Sending email to ${school} using ${method}.`);
     let schoolOptions = {
       school
@@ -54,7 +59,7 @@ export default class SendGroupEmailCommand extends Command {
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(...emails);
+      result = await sendMailjet(template, ...emails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...emails);
