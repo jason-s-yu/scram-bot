@@ -8,7 +8,7 @@ export default class SendGroupEmailCommand extends Command {
       name: 'sendgroupemail',
       group: 'registration',
       memberName: 'sendgroupemail',
-      aliases: ['sendgroupmail', 'groupemail', 'groupmail'],
+      aliases: ['sendgroupmail', 'groupemail', 'groupmail', 'groupsend'],
       description: 'Send welcome email to school group.',
       args: [
         {
@@ -29,9 +29,15 @@ export default class SendGroupEmailCommand extends Command {
 
   run = async (message: CommandoMessage, { school, method }) => {
     logger.info(`Sending email to ${school} using ${method}.`);
+    let schoolOptions = {
+      school
+    };
+    if (school === 'all') {
+      delete schoolOptions.school;
+    }
     const user = await prisma.user.findMany({
       where: {
-        school,
+        ...schoolOptions,
         OR: [
           {
             relation: 'Student'
