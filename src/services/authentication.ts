@@ -8,6 +8,8 @@ dotenv.config();
 
 const { PREFIX } = process.env;
 
+const queue = {};
+
 export const onMemberJoinForAuthentication = (client: CommandoClient) => {
   client.on('guildMemberAdd', async (member: GuildMember) => {
     if (member.user.bot) return;
@@ -26,6 +28,17 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
     if (msg.channel.type !== 'dm') return;
   
     try {
+      queue[msg.author.id].attempts += 1;
+      (msg.author.id in queue) || (queue[msg.author.id] = { attempts: 0, last: Date.now() });
+      if (queue[msg.author.id].attempts > 5) {
+        if (Date.now() - queue[msg.author.id].last > 300000) {
+          delete queue[msg.author.id];
+        } else {
+          msg.reply('Too many incorrect requests. Please wait 5 minutes.')
+          return;
+        }
+      }
+      
       logger.info(`Beginning verification process for ${msg.author.tag}.`);
       const guildMember = scramGuild.members.cache.get(msg.author.id);
       const code = msg.content.toUpperCase();
