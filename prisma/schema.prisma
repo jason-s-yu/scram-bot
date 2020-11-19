@@ -7,7 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model ListenChannel {
+  channelId String @id
+}
+
+model User {
   id               Int       @id @default(autoincrement())
   registrationDate DateTime? @default(now())
   email            String    @unique
@@ -22,4 +26,13 @@ model users {
   joinCode         String?   @unique @default(dbgenerated())
   joined           Boolean?  @default(false)
   discordId        String?   @unique
+}
+
+model Events {
+  id          String   @id @default(dbgenerated())
+  name        String
+  description String?
+  link        String?
+  startTime   DateTime
+  endTime     DateTime
 }

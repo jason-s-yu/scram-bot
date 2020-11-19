@@ -5,8 +5,8 @@ export default class GetCodeCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'getcode',
-      group: 'code',
-      memberName: 'code',
+      group: 'registration',
+      memberName: 'getcode',
       description: 'Retrieve join code for user with email.',
       args: [
         {
@@ -21,7 +21,7 @@ export default class GetCodeCommand extends Command {
 
   run = async (message: CommandoMessage, { email }) => {
     if (email) {
-      const account = await prisma.users.findOne({ where: { email }});
+      const account = await prisma.user.findOne({ where: { email }});
       if (account) {
         return message.say(`Join code for \`${email}\` is \`${account.joinCode}\`.`);
       }

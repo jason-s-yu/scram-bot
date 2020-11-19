@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@prisma/client": "2.11.0",
+    "@sendgrid/mail": "^7.4.0",
     "@types/node-mailjet": "^3.3.4",
     "discord.js": "^12.4.1",
     "discord.js-commando": "discordjs/Commando",

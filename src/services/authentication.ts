@@ -2,9 +2,15 @@ import { GuildMember, Message, Role } from 'discord.js';
 import { logger } from '../utils';
 import { scramGuild, prisma } from '../bot';
 import { CommandoClient } from 'discord.js-commando';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { PREFIX } = process.env;
 
 export const onMemberJoinForAuthentication = (client: CommandoClient) => {
   client.on('guildMemberAdd', async (member: GuildMember) => {
+    if (member.user.bot) return;
     member.send(`Welcome to the **SCRAM 2020** Discord server.`);
     const userAlreadyAuthenticated = await getUserByDiscordId(member.id);
     if (!userAlreadyAuthenticated) {
@@ -14,6 +20,7 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
 
   client.on('message', async (msg: Message) => {
     if (msg.author.bot) return;
+    if (msg.content.startsWith(PREFIX)) return;
     const user = await getUserByDiscordId(msg.author.id);
     if (user && user.joined) return;
     if (msg.channel.type !== 'dm') return;
@@ -22,7 +29,7 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
       logger.info(`Beginning verification process for ${msg.author.tag}.`);
       const guildMember = scramGuild.members.cache.get(msg.author.id);
       const code = msg.content.toUpperCase();
-      const dbUser = await prisma.users.findOne({
+      const dbUser = await prisma.user.findOne({
         where: { joinCode: code }
       });
 
@@ -40,7 +47,7 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
         const schoolRole: Role = scramGuild.roles.cache.find(role => role.name === school.trim());  // get school role
         await guildMember.roles.add(schoolRole.id);                                                 // assign school role
         await msg.reply(`You have been authenticated. Welcome, ${firstName}!`);                     // reply welcome message
-        await prisma.users.update({
+        await prisma.user.update({
           where: {
             joinCode: code
           },
@@ -60,7 +67,7 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
 
 export const onMemberLeave = (client: CommandoClient) => {
   client.on('guildMemberRemove', async (member: GuildMember) => {
-    await prisma.users.update({
+    await prisma.user.update({
       where: { discordId: member.user.id },
       data: { joined: false }
     });
@@ -69,7 +76,7 @@ export const onMemberLeave = (client: CommandoClient) => {
 }
 
 const getUserByDiscordId = async (id: string) => {
-  return await prisma.users.findOne({
+  return await prisma.user.findOne({
     where: { discordId: id }
   });
 }
