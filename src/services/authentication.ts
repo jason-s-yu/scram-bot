@@ -1,4 +1,4 @@
-import { GuildMember, Message, Role } from 'discord.js';
+import { GuildMember, Message, Role, TextChannel } from 'discord.js';
 import { logger } from '../utils';
 import { scramGuild, prisma } from '../bot';
 import { CommandoClient } from 'discord.js-commando';
@@ -59,7 +59,10 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
         await guildMember.setNickname(`${firstName} ${lastName}`);                                  // set nickname to first last
         const schoolRole: Role = scramGuild.roles.cache.find(role => role.name === school.trim());  // get school role
         await guildMember.roles.add(schoolRole.id);                                                 // assign school role
-        await msg.reply(`You have been authenticated. Welcome, ${firstName}!`);                     // reply welcome message
+        const introductionMessage = `You have been authenticated. Welcome, ${firstName}! Introduce yourself in the #introductions channel - tell us your name, school, grade, and your favorite latin word.`;
+        await msg.reply(introductionMessage);                                                       // reply welcome message
+        logger.info(`Successfully authorized ${msg.author.tag}.`);
+
         await prisma.user.update({
           where: {
             joinCode: code
@@ -68,7 +71,7 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
             joined: true
           }
         });
-        logger.info(`Successfully authorized ${msg.author.tag}.`);
+        logger.info(`Successfully updated ${msg.author.tag} in the database.`);
       } else {
         await msg.reply('Your authentication code was invalid. Please try again');
       }
@@ -79,13 +82,24 @@ export const onMemberJoinForAuthentication = (client: CommandoClient) => {
   });
 }
 
+export const onMemberSendGreeting = (client: CommandoClient) => {
+  client.on('message', async (message: Message) => {
+    const channel: TextChannel = message.channel as TextChannel;
+    if (channel.name === 'Introductions') {
+      
+    }
+  });
+}
+
 export const onMemberLeave = (client: CommandoClient) => {
   client.on('guildMemberRemove', async (member: GuildMember) => {
-    await prisma.user.update({
+    const result = await prisma.user.update({
       where: { discordId: member.user.id },
       data: { joined: false }
     });
-    logger.info(`${member.user.tag} (${member.user.id}) has left the server. Setting their join value to ${false}.`);
+    if (result) {
+      logger.info(`${member.user.tag} (${member.user.id}) has left the server. Setting their join value to ${false}.`);
+    }
   });
 }
 
