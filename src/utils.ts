@@ -119,7 +119,7 @@ export const sendMailjet = async (templateName: ('welcome' | 'correction'), ...e
     .request({
       FromEmail: 'scram@uhsjcl.com',
       FromName: 'UHS JCL SCRAM',
-      Subject: 'Welcome to SCRAM',
+      Subject: `Welcome to SCRAM${templateName === 'correction' ? ' - Discord Invite' : ''}`,
       'Mj-TemplateID': emailTemplates[templateName],
       'Mj-TemplateLanguage': 'true',
       Recipients: recipients,
