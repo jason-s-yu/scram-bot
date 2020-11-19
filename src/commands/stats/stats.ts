@@ -35,7 +35,14 @@ export default class StatsCommand extends Command {
     const total = (await prisma.user.findMany({
       where: {
         ...schoolCondition,
-        relation: 'Student'
+        OR: [
+          {
+            relation: 'Student'
+          },
+          {
+            relation: 'Volunteer'
+          }
+        ]
       }
     })).length;
     if (!(total > 0)) {
@@ -45,7 +52,14 @@ export default class StatsCommand extends Command {
       where: {
         ...schoolCondition,
         joined: true,
-        relation: 'Student'
+        OR: [
+          {
+            relation: 'Student'
+          },
+          {
+            relation: 'Volunteer'
+          }
+        ]
       }
     })).length;
 
