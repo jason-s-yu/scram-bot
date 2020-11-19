@@ -12,9 +12,8 @@ model ListenChannel {
 }
 
 model User {
-  id               Int       @id @default(autoincrement())
+  email            String    @id
   registrationDate DateTime? @default(now())
-  email            String    @unique
   phoneNumber      Int?
   firstName        String
   lastName         String

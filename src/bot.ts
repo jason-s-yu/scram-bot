@@ -41,6 +41,12 @@ client.registry
     ['schedule', 'Scheduling Commands']
   ])
   .registerDefaultGroups()
+  .registerDefaultCommands({
+    help: false,
+    ping: false,
+    eval: false,
+    prefix: false
+  })
   .registerCommandsIn({
     filter: /^([^.].*)\.(js|ts)$/,
     dirname: path.join(__dirname, 'commands')

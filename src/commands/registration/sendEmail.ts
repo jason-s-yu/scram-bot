@@ -1,43 +1,32 @@
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { logger, sendMailjet, sendSendGrid } from '../../utils';
-import { prisma } from '../../bot';
 
-export default class SendEmailCommand extends Command {
+export default class SendEmailsCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'sendemail',
       group: 'registration',
       memberName: 'sendemail',
-      description: 'Send welcome email to address.',
-      args: [
-        {
-          key: 'email',
-          prompt: 'What email address would you like to send to?',
-          type: 'string'
-        },
-        {
-          key: 'method',
-          prompt: 'What method?',
-          type: 'string',
-          default: 'mailjet'
-        }
-      ],
+      aliases: ['sendemails', 'sendmail', 'sendmails', 'email', 'emails', 'sendmultiplemails'],
+      description: 'Send welcome email to multiple addresses, comma separated.',
       ownerOnly: true
     });
   }
 
-  run = async (message: CommandoMessage, { email, method }) => {
-    logger.info(`Sending email to ${email} using ${method}.`);
-    const user = await prisma.user.findOne({ where: { email } });
-    if (!user) return message.say(`User with email \`${email}\` not registered.`);
+  run = async (message: CommandoMessage, emails) => {
+    if (emails.includes(',')) return message.say('Use space as delimiter');
+    const processedEmails = emails.split(' ');
+    const method = 'mailjet';
+    logger.info(`Sending emails to ${emails} using ${method}.`);
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(email);
+      result = await sendMailjet(...processedEmails);
     }
     else if (method === 'sendgrid') {
-      result = await sendSendGrid(email);
+      result = await sendSendGrid(...processedEmails);
     }
-    return message.say(result ? 'Success' : 'Failed');
+
+    return message.say(result);
   }
 }

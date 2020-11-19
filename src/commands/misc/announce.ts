@@ -31,6 +31,7 @@ export default class AnnounceCommand extends Command {
           key: 'deleteMessage',
           prompt: 'Do you want to delete your message?',
           type: 'string',
+          oneOf: ['yes', 'no', 'true', 'false', 'y', 'n'],
           default: 'no'
         }
       ],
@@ -51,7 +52,7 @@ export default class AnnounceCommand extends Command {
       message.delete();
     }
     if (text === '.welcome') {
-      return await channel.send(`**Hello!** We're so excited to welcome you to SCRAM 2020. It's going to be a Saturday full of activities, events, and workshops with JCLers from all around Southern California, and we've worked really hard for the past few months to bring you an experience as close to traditional as possible.\n\nIf you just joined, I just DMed you with a request for the five-digit code sent to you via email. Copy and paste that code to gain access to the rest of the server. If your code fails multiple times and you believe that is an error, send a message to ${scramGuild.owner.toString()}.\n\nOnce we get close enough to Saturday, more channels will be available for you to chat, register for and subscribe to event notifications, and find out where you need to go to join the Opening Ceremonies.\n\nLooking forward to a fun-filled Saturday with you!\nCheers, *The SCRAM Planning Team*`);
+      return await channel.send(`**Hello!** We're so excited to welcome you to SCRAM 2020. It's going to be a Saturday full of activities, events, and workshops with JCLers from all around Southern California, and we've worked really hard for the past few months to bring you an experience as close to traditional as possible.\n\nIf you just joined, I sent you a direct message with a request for the five-digit code sent to you via email. Copy and paste that code to gain access to the rest of the server. If your code fails multiple times and you believe that is an error, send a message to ${scramGuild.owner.toString()}.\n\nOnce we get close enough to Saturday, more channels will be available for you to chat, register for and subscribe to event notifications, and find out where you need to go to join the Opening Ceremonies.\n\nLooking forward to a fun-filled Saturday with you!\nCheers, *The SCRAM Planning Team*`);
     } else {
       let tagMessage = ``;
       for (let roleString of groups.split(',')) {

@@ -54,9 +54,12 @@ export const logger = createLogger({
 });
 
 export const sendSendGrid = async (...emails: string[]) => {
+  const success = [];
+  const skipped = [];
   for (const email of emails) {
     const user = await prisma.user.findOne({ where: { email } });
     if (!user) {
+      skipped.push(email);
       logger.info(`Skipping ${email} because it does not exist in the database.`);
       continue;
     }
@@ -75,13 +78,16 @@ export const sendSendGrid = async (...emails: string[]) => {
       }
     };
     const result = await sgMail.send(msg);
-    console.log(result);
-    logger.info(`Mail sent to ${email}.`);
+    if (result) {
+      success.push(email);
+    }
   }
+  return `Sent ${success.length} email(s) successfully. Skipped: ${skipped.length > 0 ? skipped : 'none'}.`;
 }
 
 export const sendMailjet = async (...emails: string[]) => {
   const recipients = [];
+  const skipped = [];
   for (const email of emails) {
     const user = await prisma.user.findOne({ where: { email } });
     if (user) {
@@ -95,6 +101,7 @@ export const sendMailjet = async (...emails: string[]) => {
         }
       });
     } else {
+      skipped.push(email);
       logger.info(`Skipping ${email} because it does not exist in the database.`);
     }
   }
@@ -109,5 +116,10 @@ export const sendMailjet = async (...emails: string[]) => {
       'Mj-TemplateLanguage': 'true',
       Recipients: recipients,
       Headers: { 'Reply-To': 'scram@uhsjcl.com' }
-    }).then(result => result).catch(() => false);
+    }).then(result => `Sent ${recipients.length} email(s) successfully. Skipped: ${skipped.length > 0 ? skipped : 'none'}.`).catch(() => `Internal error.`);
+}
+
+export const disambiguation = (items, label, property = 'name') => {
+	const itemList = items.map(item => `"${(property ? item[property] : item).replace(/ /g, '\xa0')}"`).join(',   ');
+	return `Multiple ${label} found, please be more specific: ${itemList}`;
 }
