@@ -16,12 +16,15 @@ export default class SendEmailsCommand extends Command {
   run = async (message: CommandoMessage, emails) => {
     if (emails.includes(',')) return message.say('Use space as delimiter');
     const processedEmails = emails.split(' ');
+    if (processedEmails[0] !== 'welcome' || processedEmails[0] !== 'correction') {
+      return message.say('You must specify a template (welcome, correction).');
+    }
     const method = 'mailjet';
-    logger.info(`Sending emails to ${emails} using ${method}.`);
+    logger.info(`Sending ${processedEmails[0]} emails to ${emails} using ${method}.`);
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet('welcome', ...processedEmails);
+      result = await sendMailjet(processedEmails[0], ...processedEmails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...processedEmails);
