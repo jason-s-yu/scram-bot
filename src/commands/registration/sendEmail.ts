@@ -16,7 +16,7 @@ export default class SendEmailsCommand extends Command {
   run = async (message: CommandoMessage, emails) => {
     if (emails.includes(',')) return message.say('Use space as delimiter');
     const processedEmails = emails.split(' ');
-    if (processedEmails[0] !== 'welcome' || processedEmails[0] !== 'correction') {
+    if (processedEmails[0] !== 'welcome' && processedEmails[0] !== 'correction') {
       return message.say('You must specify a template (welcome, correction).');
     }
     const method = 'mailjet';
