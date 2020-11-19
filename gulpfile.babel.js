@@ -27,10 +27,12 @@ gulp.task('server', () => {
   let entry = gulp.src(`${dir.src}/bot.ts`)
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}/${dir.src}`));
-  let everything_else = gulp.src('./*(!(node_modules|prod_modules|tests|.git))/**/*.(ts|json)')
+  let flat_files = gulp.src(`${dir.src}/**/*.json`)
+    .pipe(gulp.dest(`${dir.build}/${dir.src}`));
+  let everything_else = gulp.src('./*(!(node_modules|prod_modules|tests|.git))/**/*.ts')
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}`));
-  return merge(entry, everything_else);
+  return merge(entry, flat_files, everything_else);
 });
 
 gulp.task('default', gulp.series('clean', 'dirs', 'server'));
