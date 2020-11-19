@@ -19,7 +19,9 @@ export default class SendGroupEmailCommand extends Command {
         {
           key: 'template',
           prompt: 'What template?',
-          oneOf: ['welcome', 'correction']
+          oneOf: ['welcome', 'correction'],
+          type: 'string',
+          default: 'welcome'
         },
         {
           key: 'method',
