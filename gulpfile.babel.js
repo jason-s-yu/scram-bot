@@ -27,7 +27,7 @@ gulp.task('server', () => {
   let entry = gulp.src(`${dir.src}/bot.ts`)
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}/${dir.src}`));
-  let everything_else = gulp.src('./*(!(node_modules|prod_modules|tests|.git))/**/*.ts')
+  let everything_else = gulp.src('./*(!(node_modules|prod_modules|tests|.git))/**/*.(ts|json)')
     .pipe(typescript(require('./tsconfig.json').compilerOptions))
     .pipe(gulp.dest(`${dir.build}`));
   return merge(entry, everything_else);
