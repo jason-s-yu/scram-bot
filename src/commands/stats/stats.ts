@@ -86,7 +86,7 @@ export default class StatsCommand extends Command {
         { name: 'Total Registered', value: `\`${total}\``, inline: true },
         { name: 'Percentage Joined', value: `\`${frac}\%\`` }
       )
-      .setImage(`https://quickchart.io/chart?w=300&h=300&c=${encodeURIComponent(options)}`)
+      .setImage(`https://quickchart.io/chart?c=${encodeURIComponent(options)}`)
       .setTimestamp();
 
     return message.channel.send(embed);
