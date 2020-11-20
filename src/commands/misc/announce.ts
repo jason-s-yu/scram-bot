@@ -1,4 +1,4 @@
-import { CategoryChannel, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { CategoryChannel, MessageEmbed, Role, TextChannel, VoiceChannel } from 'discord.js';
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { scramGuild } from '../../bot';
 
@@ -32,7 +32,7 @@ export default class AnnounceCommand extends Command {
           prompt: 'Do you want to delete your message?',
           type: 'string',
           oneOf: ['yes', 'no', 'true', 'false', 'y', 'n'],
-          default: 'yes'
+          default: 'no'
         }
       ],
       userPermissions: ['ADMINISTRATOR']
@@ -58,17 +58,19 @@ export default class AnnounceCommand extends Command {
       if (deleteMessage.toLowerCase() === 'yes' || deleteMessage.toLowerCase() === 'y' || deleteMessage.toLowerCase() === 'true') {
         message.delete();
       }
-      /* return new MessageEmbed()
-        .setColor('')
-        .setThumbnail('')
-        .setDescription('') */
+      return message.say(new MessageEmbed()
+        .setColor('#7851a9')
+        .setThumbnail('http://uhsjcl.com/cdn/scramlogo.jpg')
+        .setTitle('SCRAM 2020')
+        .setDescription(`_****1. No spamming\n2. No hate speech of any kind\n3. No excessive cursing or profanity\n4. No obscene or NSFW images, links, videos\n5. Keep conversation topics school appropriate\n6. Avoid heated/aggressive arguments\n7. Be respectful of other participants\n8. Use each channel for its respective purpose\n9. Type in English only\nMessage any member with the Planning role if there are any issues.`)
+      );
     } else {
       let tagMessage = ``;
       for (let roleString of groups.split(',')) {
         roleString = roleString.trim();
-        const findRole = scramGuild.roles.cache.find(role => role.name === roleString);
+        const findRole: Role = scramGuild.roles.cache.find(role => role.name === roleString);
         if (!findRole) continue;
-        tagMessage += `${roleString.toString()} `;
+        tagMessage += `${findRole.toString()} `;
       }
       if (deleteMessage.toLowerCase() === 'yes' || deleteMessage.toLowerCase() === 'y' || deleteMessage.toLowerCase() === 'true') {
         message.delete();
