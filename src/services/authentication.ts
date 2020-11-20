@@ -87,15 +87,14 @@ export const onMemberSendGreeting = (client: CommandoClient) => {
     if (message.author.bot) return;
     const channel: TextChannel = message.channel as TextChannel;
     if (channel.name.toLowerCase() === 'introductions') {
-      logger.info('here');
       const user = message.author;
       const posted = await prisma.introduction.findMany({
         where: {
           discordId: user.id
         }
-      })[0].sent;
+      });
 
-      if (posted) return;
+      if (posted[0] && posted[0].sent) return;
 
       await prisma.introduction.update({
         where: {

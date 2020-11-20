@@ -8,7 +8,7 @@ import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
-const { PREFIX, OWNER, BOT_TOKEN } = process.env;
+const { PREFIX, OWNER, BOT_TOKEN, MAIN_GUILD_ID } = process.env;
 
 export const prisma = new PrismaClient();
 
@@ -17,14 +17,13 @@ export const client: CommandoClient = new CommandoClient({
   owner: OWNER
 });
 
-export const SCRAM_GUILD_ID = '762785723669151764';
 export let scramGuild: Guild;
 
 client.once('ready', async () => {
   logger.info(`Client is listening as ${client.user.tag} (${client.user.id})`);
   client.user.setActivity('opening ceremonies', { type: 'STREAMING', url: '' });
 
-  scramGuild = client.guilds.cache.get(SCRAM_GUILD_ID);
+  scramGuild = client.guilds.cache.get(MAIN_GUILD_ID);
 });
 
 onMemberJoinForAuthentication(client);
