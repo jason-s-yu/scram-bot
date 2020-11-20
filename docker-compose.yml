@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     image: scrambot:latest
+    volumes:
+      - bot-logs:/root/scram-bot/logs
   postgres:
     container_name: postgres
     image: postgres:13-alpine
@@ -20,3 +22,4 @@ services:
       - ./database/.:/docker-entrypoint-initdb.d
 volumes:
   postgres: ~
+  bot-logs:
