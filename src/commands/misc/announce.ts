@@ -66,7 +66,9 @@ export default class AnnounceCommand extends Command {
       let tagMessage = ``;
       for (let roleString of groups.split(',')) {
         roleString = roleString.trim();
-        tagMessage += `${scramGuild.roles.cache.find(role => role.name === roleString).toString()} `;
+        const findRole = scramGuild.roles.cache.find(role => role.name === roleString);
+        if (!findRole) continue;
+        tagMessage += `${roleString.toString()} `;
       }
       if (deleteMessage.toLowerCase() === 'yes' || deleteMessage.toLowerCase() === 'y' || deleteMessage.toLowerCase() === 'true') {
         message.delete();
