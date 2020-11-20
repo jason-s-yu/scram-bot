@@ -41,6 +41,14 @@ export default class SendGroupEmailCommand extends Command {
     };
     if (school === 'all') {
       delete schoolOptions.school;
+    } else if (school.startsWith('!')) {
+      schoolOptions = {
+        NOT: [
+          {
+            school: school.replace('!')
+          }
+        ]
+      } as any;
     }
     const user = await prisma.user.findMany({
       where: {
