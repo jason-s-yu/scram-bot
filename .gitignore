@@ -8,6 +8,7 @@ build/
 dist/
 logs/
 boardmails.json
+*.csv
 
 # Logs
 logs

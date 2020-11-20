@@ -12,8 +12,8 @@ model ListenChannel {
 }
 
 model User {
-  email            String    @id
-  registrationDate DateTime? @default(now())
+  email            String        @id
+  registrationDate DateTime?     @default(now())
   phoneNumber      Int?
   firstName        String
   lastName         String
@@ -22,9 +22,10 @@ model User {
   teacher          String?
   grade            Int?
   latinLevel       String?
-  joinCode         String?   @unique @default(dbgenerated())
-  joined           Boolean?  @default(false)
-  discordId        String?   @unique
+  joinCode         String?       @unique @default(dbgenerated())
+  joined           Boolean?      @default(false)
+  discordId        String?       @unique
+  Introduction     Introduction?
 }
 
 model Events {
@@ -34,4 +35,19 @@ model Events {
   link        String?
   startTime   DateTime
   endTime     DateTime
+}
+
+model Event {
+  id          String   @id @default(dbgenerated())
+  name        String
+  description String?
+  link        String?
+  startTime   DateTime
+  endTime     DateTime
+}
+
+model Introduction {
+  discordId String   @id
+  sent      Boolean? @default(false)
+  User      User     @relation(fields: [discordId], references: [discordId])
 }

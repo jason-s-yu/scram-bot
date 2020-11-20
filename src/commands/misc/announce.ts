@@ -32,7 +32,7 @@ export default class AnnounceCommand extends Command {
           prompt: 'Do you want to delete your message?',
           type: 'string',
           oneOf: ['yes', 'no', 'true', 'false', 'y', 'n'],
-          default: 'no'
+          default: 'yes'
         }
       ],
       userPermissions: ['ADMINISTRATOR']

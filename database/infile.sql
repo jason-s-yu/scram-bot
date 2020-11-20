@@ -86,13 +86,21 @@ INSERT INTO "ListenChannel" VALUES ('778802296921784342');
 /*  */
 /* ******************************************************************* */
 
-DROP TABLE IF EXISTS "Events";
+DROP TABLE IF EXISTS "Event";
 
-CREATE TABLE public."Events" (
+CREATE TABLE public."Event" (
   "id"          UUID          PRIMARY KEY NOT NULL DEFAULT UUID_GENERATE_V4(),
   "name"        VARCHAR(255)  NOT NULL,
   "description" VARCHAR(255),
   "link"        VARCHAR(255),
   "startTime"   TIMESTAMP     NOT NULL,
   "endTime"     TIMESTAMP     NOT NULL
+);
+
+DROP TABLE IF EXISTS "Introduction";
+
+CREATE TABLE public."Introduction" (
+  "discordId"   VARCHAR(19)   PRIMARY KEY NOT NULL,
+  "sent"        BOOLEAN       DEFAULT FALSE,
+  CONSTRAINT "fk_discordId" FOREIGN KEY ("discordId") REFERENCES "User" ("discordId")
 );

@@ -3,7 +3,7 @@ import { logger } from './utils';
 import dotenv from 'dotenv';
 import path from 'path';
 import { Guild } from 'discord.js';
-import { onMemberJoinForAuthentication, onMemberLeave } from './services/authentication';
+import { onMemberJoinForAuthentication, onMemberLeave, onMemberSendGreeting } from './services/authentication';
 import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
@@ -29,6 +29,7 @@ client.once('ready', async () => {
 
 onMemberJoinForAuthentication(client);
 onMemberLeave(client);
+onMemberSendGreeting(client);
 
 client.on('error', console.error);
 

@@ -8,26 +8,35 @@ export default class SendEmailsCommand extends Command {
       group: 'registration',
       memberName: 'sendemail',
       aliases: ['sendemails', 'sendmail', 'sendmails', 'email', 'emails', 'sendmultiplemails'],
-      description: 'Send welcome email to multiple addresses, comma separated.',
+      args: [
+        {
+          key: 'template',
+          type: 'string',
+          oneOf: ['welcome', 'correction'],
+          prompt: 'Enter template'
+        },
+        {
+          key: 'emails',
+          type: 'string',
+          infinite: true,
+          prompt: 'Enter emails'
+        }
+      ],
+      description: 'Send welcome email to multiple addresses.',
       ownerOnly: true
     });
   }
 
-  run = async (message: CommandoMessage, emails) => {
-    if (emails.includes(',')) return message.say('Use space as delimiter');
-    const processedEmails = emails.split(' ');
-    if (processedEmails[0] !== 'welcome' && processedEmails[0] !== 'correction') {
-      return message.say('You must specify a template (welcome, correction).');
-    }
+  run = async (message: CommandoMessage, { template, emails }) => {
     const method = 'mailjet';
-    logger.info(`Sending ${processedEmails[0]} emails to ${emails} using ${method}.`);
+    logger.info(`Sending ${template} emails to ${emails} using ${method}.`);
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(processedEmails[0], ...processedEmails);
+      result = await sendMailjet(template, ...emails);
     }
     else if (method === 'sendgrid') {
-      result = await sendSendGrid(...processedEmails);
+      result = await sendSendGrid(...emails);
     }
 
     return message.say(result);
