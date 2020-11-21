@@ -1,6 +1,5 @@
-import { ClientUser, Message, MessageEmbed, MessageReaction, TextChannel, User } from 'discord.js';
+import { MessageEmbed, TextChannel } from 'discord.js';
 import { Command, CommandoMessage } from 'discord.js-commando';
-import { logger } from '../../utils';
 import { prisma, scramGuild } from '../../bot';
 
 export default class NewEventCommand extends Command {
@@ -42,7 +41,7 @@ export default class NewEventCommand extends Command {
           key: 'publish',
           prompt: 'Publish?',
           type: 'string',
-          default: 'no'
+          default: ''
         }
       ]
     });
@@ -81,8 +80,18 @@ export default class NewEventCommand extends Command {
             { name: 'End Time', value: this._formatTime(result.endTime), inline: true }
           )
           .addField('Link', link)
+          .setFooter(result.id);
 
-        channel.send(embed);
+        const sentEmbed = await channel.send(embed);
+
+        await prisma.event.update({
+          where: {
+            id: result.id
+          },
+          data: {
+            messageId: sentEmbed.id
+          }
+        });
         publishStatus = true;
       }
     }

@@ -86,15 +86,25 @@ INSERT INTO "ListenChannel" VALUES ('778802296921784342');
 /*  */
 /* ******************************************************************* */
 
+DROP TABLE IF EXISTS "EventSubscription";
 DROP TABLE IF EXISTS "Event";
 
 CREATE TABLE public."Event" (
-  "id"          UUID          PRIMARY KEY NOT NULL DEFAULT UUID_GENERATE_V4(),
-  "name"        VARCHAR(255)  NOT NULL,
+  "id"          UUID            PRIMARY KEY NOT NULL DEFAULT UUID_GENERATE_V4(),
+  "name"        VARCHAR(255)    NOT NULL,
   "description" VARCHAR(255),
   "link"        VARCHAR(255),
-  "startTime"   TIMESTAMP     NOT NULL,
-  "endTime"     TIMESTAMP     NOT NULL
+  "startTime"   TIMESTAMP       NOT NULL,
+  "endTime"     TIMESTAMP       NOT NULL,
+  "private"     BOOLEAN         NOT NULL DEFAULT FALSE,
+  "messageId"   VARCHAR(255)    UNIQUE
+);
+
+CREATE TABLE public."EventSubscription" (
+  "userEmail"   VARCHAR(255)  REFERENCES "User" ("email") ON UPDATE CASCADE ON DELETE CASCADE,
+  "eventId"     UUID          REFERENCES "Event" ("id") ON UPDATE CASCADE,
+  "notify"      BOOLEAN       NOT NULL DEFAULT TRUE,
+  CONSTRAINT "eventSubscription_pkey" PRIMARY KEY ("userEmail", "eventId")
 );
 
 CREATE TABLE public."Introduction" (

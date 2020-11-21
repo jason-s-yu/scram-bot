@@ -43,6 +43,7 @@
     "dev": "nodemon",
     "build": "gulp",
     "serve": "node dist/src/bot",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "regenerate": "npx prisma introspect && rm -rf node_modules && yarn install"
   }
 }

@@ -12,20 +12,21 @@ model ListenChannel {
 }
 
 model User {
-  email            String        @id
-  registrationDate DateTime?     @default(now())
-  phoneNumber      Int?
-  firstName        String
-  lastName         String
-  relation         String
-  school           String
-  teacher          String?
-  grade            Int?
-  latinLevel       String?
-  joinCode         String?       @unique @default(dbgenerated())
-  joined           Boolean?      @default(false)
-  discordId        String?       @unique
-  Introduction     Introduction?
+  email             String              @id
+  registrationDate  DateTime?           @default(now())
+  phoneNumber       Int?
+  firstName         String
+  lastName          String
+  relation          String
+  school            String
+  teacher           String?
+  grade             Int?
+  latinLevel        String?
+  joinCode          String?             @unique @default(dbgenerated())
+  joined            Boolean?            @default(false)
+  discordId         String?             @unique
+  EventSubscription EventSubscription[]
+  Introduction      Introduction?
 }
 
 model Events {
@@ -38,16 +39,29 @@ model Events {
 }
 
 model Event {
-  id          String   @id @default(dbgenerated())
-  name        String
-  description String?
-  link        String?
-  startTime   DateTime
-  endTime     DateTime
+  id                String              @id @default(dbgenerated())
+  name              String
+  description       String?
+  link              String?
+  startTime         DateTime
+  endTime           DateTime
+  private           Boolean             @default(false)
+  messageId         String?             @unique
+  EventSubscription EventSubscription[]
 }
 
 model Introduction {
   discordId String   @id
   sent      Boolean? @default(false)
   User      User     @relation(fields: [discordId], references: [discordId])
+}
+
+model EventSubscription {
+  userEmail String
+  eventId   String
+  notify    Boolean @default(true)
+  Event     Event   @relation(fields: [eventId], references: [id])
+  User      User    @relation(fields: [userEmail], references: [email])
+
+  @@id([userEmail, eventId])
 }
