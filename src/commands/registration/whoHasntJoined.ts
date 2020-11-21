@@ -52,6 +52,6 @@ export default class WhoHasntJoinedCommand extends Command {
       build += `\`${person.firstName.trim()}\` \`${person.lastName.trim()}\` | \`${person.email}\` | \`${person.joinCode}\`\n`;
     });
 
-    return message.say(`__**Users not joined from \`${school}\`__\n\n${build}`);
+    return message.say(`__**Users not joined from**__ \`${school}\`\n\n${build}`);
   }
 }
