@@ -61,6 +61,7 @@ export const logger = createLogger({
 });
 
 export const sendSendGrid = async (...emails: string[]) => {
+  return;
   const success = [];
   const skipped = [];
   for (const email of emails) {
