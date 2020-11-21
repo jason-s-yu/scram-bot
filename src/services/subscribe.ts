@@ -69,6 +69,8 @@ export const onSubscribeToEvent = (client: CommandoClient) => {
       logger.error(`Error updating unsubscription!`)
       return;
     }
+
+    logger.info('Successfully subscribed');
   });
 }
 
@@ -106,5 +108,7 @@ export const onUnsubscribeToEvent = (client: CommandoClient) => {
       logger.error(`Error updating unsubscription!`)
       return;
     }
+
+    logger.info('Successfully unsubscribed');
   });
 }

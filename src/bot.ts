@@ -50,7 +50,7 @@ client.on('ready', () => {
             }
           });
 
-          scramGuild.members.cache.get(user.discordId).send(`${event.name} starts in 15 minutes! When it is time, go to: ${event.link}`);
+          await scramGuild.members.cache.get(user.discordId).send(`${event.name} starts in 15 minutes! When it is time, go to: ${event.link}`);
         })
       }
     });
@@ -80,7 +80,7 @@ client.on('ready', async () => {
             }
           });
 
-          scramGuild.members.cache.get(user.discordId).send(`${event.name} is starting now! Go to: ${event.link}`);
+          await scramGuild.members.cache.get(user.discordId).send(`${event.name} is starting now! Go to: ${event.link}`);
         })
       }
     });
