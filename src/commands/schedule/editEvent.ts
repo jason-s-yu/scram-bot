@@ -84,7 +84,7 @@ export default class EditEventCommand extends Command {
       }
     }
 
-    return message.say(`Edited ${publishStatus === true ? 'and modified post ' : '(and could not/did not modify post) '}event ${name}!`);
+    return message.say(`Edited ${publishStatus === true ? 'and modified post ' : '(and could not/did not modify post) '}event ${result.name}!`);
   }
 
   _formatTime = (date: Date) => {
