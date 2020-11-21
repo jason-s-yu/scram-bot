@@ -29,7 +29,7 @@ client.once('ready', async () => {
 
 client.on('ready', () => {
   // 15 minutes before
-  cron.schedule('0,15,30,45 * * * *', async () => {
+  cron.schedule('0,15,30,45,57 * * * *', async () => {
     logger.info('Pulling for 15 minute warning.');
     const allEvents = await prisma.event.findMany();
 
