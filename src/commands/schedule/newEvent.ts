@@ -17,14 +17,24 @@ export default class NewEventCommand extends Command {
           type: 'string'
         },
         {
+          key: 'link',
+          prompt: 'Event link?',
+          type: 'string'
+        },
+        {
           key: 'start',
           prompt: 'Event start time?',
-          type: 'string',
-          default: ''
+          type: 'string'
         },
         {
           key: 'end',
           prompt: 'Event end time?',
+          type: 'string',
+          default: ''
+        },
+        {
+          key: 'description',
+          prompt: 'Event description?',
           type: 'string',
           default: ''
         }
