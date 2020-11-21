@@ -86,8 +86,8 @@ INSERT INTO "ListenChannel" VALUES ('778802296921784342') ON CONFLICT DO NOTHING
 /*  */
 /* ******************************************************************* */
 
-DROP TABLE IF EXISTS "EventSubscription";
-DROP TABLE IF EXISTS "Event";
+/* DROP TABLE IF EXISTS "EventSubscription";
+DROP TABLE IF EXISTS "Event"; */
 
 CREATE TABLE IF NOT EXISTS public."Event" (
   "id"          UUID            PRIMARY KEY NOT NULL DEFAULT UUID_GENERATE_V4(),
