@@ -43,17 +43,14 @@ export default class EditEventCommand extends Command {
       thingToUpdate = new Date(Date.parse(`November 21, 2020 ${newValue}`));
     }
 
-    const data = {
-      [property]: newValue
-    }
+    const data = {};
+    data[property] = newValue;
 
     const result = await prisma.event.update({
       where: {
         id
       },
-      data: {
-        [property]: newValue
-      }
+      data
     });
 
     if (!result) return message.say('Failed to edit event');
