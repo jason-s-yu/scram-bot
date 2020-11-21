@@ -19,7 +19,7 @@ export default class SendGroupEmailCommand extends Command {
         {
           key: 'template',
           prompt: 'What template?',
-          oneOf: ['welcome', 'correction'],
+          oneOf: ['welcome', 'correction', 'reminder'],
           type: 'string',
           default: 'welcome'
         },
@@ -57,7 +57,7 @@ export default class SendGroupEmailCommand extends Command {
       schoolOptions['joined'] = false;
     }
 
-    logger.info(schoolOptions);
+    logger.info(schoolOptions.joined);
     const user = await prisma.user.findMany({
       where: {
         ...schoolOptions,
