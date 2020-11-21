@@ -68,7 +68,7 @@ CREATE TRIGGER "testInsertBeforeTrigger"
   FOR EACH ROW
   EXECUTE PROCEDURE "testInsertBeforeFunc"();
 
-COPY "User"("email", "registrationDate", "phoneNumber", "firstName", "lastName", "relation", "school", "teacher", "grade", "latinLevel") FROM '/docker-entrypoint-initdb.d/2020_SCRAM_Registration-db_infile.csv' DELIMITER ',' CSV HEADER;
+/* COPY "User"("email", "registrationDate", "phoneNumber", "firstName", "lastName", "relation", "school", "teacher", "grade", "latinLevel") FROM '/docker-entrypoint-initdb.d/2020_SCRAM_Registration-db_infile.csv' DELIMITER ',' CSV HEADER; */ 
 
 /* ******************************************************************* */
 /* ListenChannel includes all discord channels to listen to for reacts */
@@ -96,8 +96,6 @@ CREATE TABLE public."Event" (
   "startTime"   TIMESTAMP     NOT NULL,
   "endTime"     TIMESTAMP     NOT NULL
 );
-
-DROP TABLE IF EXISTS "Introduction";
 
 CREATE TABLE public."Introduction" (
   "discordId"   VARCHAR(19)   PRIMARY KEY NOT NULL,
