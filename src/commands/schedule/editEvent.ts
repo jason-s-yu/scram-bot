@@ -67,11 +67,11 @@ export default class EditEventCommand extends Command {
         const embed = new MessageEmbed()
           .setTitle(result.name)
           .setDescription(result.description)
-          .setURL(result.link)
           .addFields(
             { name: 'Start Time', value: this._formatTime(result.startTime), inline: true },
             { name: 'End Time', value: this._formatTime(result.endTime), inline: true }
           )
+          .addField('Link', result.link)
           .addField('Subscribe', '🔔 to subscribe')
           .setFooter(result.id);
 
