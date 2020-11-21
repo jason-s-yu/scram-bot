@@ -69,9 +69,9 @@ export default class AnnounceCommand extends Command {
       for (let roleString of groups.split(',')) {
         roleString = roleString.trim();
         if (roleString === 'everyone') {
-          roleString += '@everyone ';
+          tagMessage += '@everyone ';
         } else if (roleString === 'here') {
-          roleString += '@here ';
+          tagMessage += '@here ';
         }
         const findRole: Role = scramGuild.roles.cache.find(role => role.name === roleString);
         if (!findRole) continue;
