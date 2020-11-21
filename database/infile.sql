@@ -74,7 +74,7 @@ CREATE TRIGGER "testInsertBeforeTrigger"
 /* ListenChannel includes all discord channels to listen to for reacts */
 /* ******************************************************************* */
 
-DROP TABLE IF EXISTS "ListenChannel";
+/* DROP TABLE IF EXISTS "ListenChannel"; */
 
 CREATE TABLE public."ListenChannel" (
   "channelId"  varchar(19)  PRIMARY KEY NOT NULL
@@ -86,8 +86,8 @@ INSERT INTO "ListenChannel" VALUES ('778802296921784342');
 /*  */
 /* ******************************************************************* */
 
-DROP TABLE IF EXISTS "EventSubscription";
-DROP TABLE IF EXISTS "Event";
+/* DROP TABLE IF EXISTS "EventSubscription";
+DROP TABLE IF EXISTS "Event"; */
 
 CREATE TABLE public."Event" (
   "id"          UUID            PRIMARY KEY NOT NULL DEFAULT UUID_GENERATE_V4(),
