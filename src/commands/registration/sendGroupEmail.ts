@@ -17,6 +17,13 @@ export default class SendGroupEmailCommand extends Command {
           type: 'string'
         },
         {
+          key: 'fromEmail',
+          prompt: 'Which from?',
+          oneOf: ['scram@uhsjcl.com', 'southernrep@cajcl.org'],
+          default: 'scram@uhsjcl.com',
+          type: 'string'
+        },
+        {
           key: 'template',
           prompt: 'What template?',
           oneOf: ['welcome', 'correction', 'reminder'],
@@ -34,7 +41,7 @@ export default class SendGroupEmailCommand extends Command {
     });
   }
 
-  run = async (message: CommandoMessage, { school, template, method }) => {
+  run = async (message: CommandoMessage, { school, fromEmail, template, method }) => {
     logger.info(`Sending email to ${school} using ${method}.`);
     interface SchoolOptions {
       [key: string]: any
@@ -76,11 +83,11 @@ export default class SendGroupEmailCommand extends Command {
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
+      result = await sendMailjet(template, fromEmail, ...emails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...emails);
     }
-    return message.say(result ? `Tested ${user.length} emails successfully.` : `Email sending failed.`);
+    return message.say(result ? `Sent ${user.length} emails successfully.` : `Email sending failed.`);
   }
 }
