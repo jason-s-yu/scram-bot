@@ -12,7 +12,7 @@ export default class UnpublishEventCommand extends Command {
     super(client, {
       name: 'unpublishevent',
       group: 'schedule',
-      memberName: 'publish event',
+      memberName: 'unpublish event',
       aliases: ['unpublish'],
       description: 'Unpublish an existing event listing.',
       args: [
