@@ -11,8 +11,8 @@ export default class UnlinkEmailCommand extends Command {
       description: 'Unlink discord account.',
       args: [
         {
-          key: 'discordId',
-          prompt: 'Tag the user',
+          key: 'email',
+          prompt: `User's email addres`,
           type: 'string'
         }
       ],
@@ -20,15 +20,9 @@ export default class UnlinkEmailCommand extends Command {
     });
   }
 
-  run = async (message: CommandoMessage, { discordId }) => {
-    let tagged;
-    try {
-      tagged = scramGuild.members.cache.get(message.mentions.members.first().user.id);
-    } catch (err) {
-      return message.say('Tagged user not found.');
-    }
+  run = async (message: CommandoMessage, { email }) => {
     const result = await prisma.user.update({
-      where: { discordId: tagged },
+      where: { email },
       data: { joined: false }
     });
 
