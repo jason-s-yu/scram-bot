@@ -6,6 +6,7 @@ import { Guild } from 'discord.js';
 import { onMemberJoinForAuthentication, onMemberLeave, onMemberSendGreeting } from './services/authentication';
 import { PrismaClient } from '@prisma/client';
 import cron from 'node-cron';
+import { onSubscribeToEvent, onUnsubscribeToEvent } from './services/subscribe';
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ client.once('ready', async () => {
 
 client.on('ready', () => {
   // 15 minutes before
-  cron.schedule('0,15,30,45,57 * * * *', async () => {
+  cron.schedule('0,3,15,30,45,57 * * * *', async () => {
     logger.info('Pulling for 15 minute warning.');
     const allEvents = await prisma.event.findMany();
 
@@ -90,6 +91,8 @@ client.on('ready', async () => {
 onMemberJoinForAuthentication(client);
 onMemberLeave(client);
 // onMemberSendGreeting(client);
+onSubscribeToEvent(client);
+onUnsubscribeToEvent(client);
 
 client.on('error', console.error);
 
