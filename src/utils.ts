@@ -14,7 +14,8 @@ const { SENDGRID_KEY, MAILJET_API_KEY, MAILJET_SECRET_KEY } = process.env;
 
 export const emailTemplates = {
   'welcome': '1935835',
-  'correction': '1943276'
+  'correction': '1943276',
+  'reminder': '1948061'
 };
 
 sgMail.setApiKey(SENDGRID_KEY);
@@ -91,7 +92,7 @@ export const sendSendGrid = async (...emails: string[]) => {
   return `Sent ${success.length} email(s) successfully. Skipped: ${skipped.length > 0 ? skipped : 'none'}.`;
 }
 
-export const sendMailjet = async (templateName: ('welcome' | 'correction'), from: ('scram@uhsjcl.com' | 'southernrep@cajcl.org'), ...emails: string[]) => {
+export const sendMailjet = async (templateName: ('welcome' | 'correction' | 'reminder'), from: ('scram@uhsjcl.com' | 'southernrep@cajcl.org'), ...emails: string[]) => {
   const invite = (await (scramGuild.channels.cache.get('778802682185777203') as TextChannel).createInvite({ temporary: true, maxAge: 0 })).url;
   const recipients = [];
   const skipped = [];
@@ -115,11 +116,17 @@ export const sendMailjet = async (templateName: ('welcome' | 'correction'), from
   }
 
   const mailer = mailjet.connect(MAILJET_API_KEY, MAILJET_SECRET_KEY);
+  let title = '';
+  if (templateName === 'correction') {
+    title += ' - Discord Invite';
+  } else if (templateName === 'reminder') {
+    title = 'Reminder to Join the SCRAM 2020 Discord Server';
+  }
   return mailer.post('send')
     .request({
       FromEmail: from,
       FromName: 'UHS JCL SCRAM',
-      Subject: `Welcome to SCRAM${templateName === 'correction' ? ' - Discord Invite' : ''}`,
+      Subject: title,
       'Mj-TemplateID': emailTemplates[templateName],
       'Mj-TemplateLanguage': 'true',
       Recipients: recipients,
