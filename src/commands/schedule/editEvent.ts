@@ -76,8 +76,11 @@ export default class EditEventCommand extends Command {
           .addField('Subscribe', '🔔 to subscribe')
           .setFooter(result.id);
 
-        await channel.messages.cache.get(result.messageId).edit(embed);
-        publishStatus = true;
+        const toEdit = await message.channel.messages.fetch(({ around: result.messageId, limit: 1 }));
+        if (toEdit) {
+          await toEdit.first().edit(embed);
+          publishStatus = true;
+        }
       }
     }
 

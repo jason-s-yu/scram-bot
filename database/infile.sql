@@ -76,23 +76,23 @@ CREATE TRIGGER "testInsertBeforeTrigger"
 
 /* DROP TABLE IF EXISTS "ListenChannel"; */
 
-CREATE TABLE public."ListenChannel" (
+CREATE TABLE IF NOT EXISTS public."ListenChannel" (
   "channelId"  varchar(19)  PRIMARY KEY NOT NULL
 );
 
-INSERT INTO "ListenChannel" VALUES ('778802296921784342');
+INSERT INTO "ListenChannel" VALUES ('778802296921784342') ON CONFLICT DO NOTHING;
 
 /* ******************************************************************* */
 /*  */
 /* ******************************************************************* */
 
-/* DROP TABLE IF EXISTS "EventSubscription";
-DROP TABLE IF EXISTS "Event"; */
+DROP TABLE IF EXISTS "EventSubscription";
+DROP TABLE IF EXISTS "Event";
 
-CREATE TABLE public."Event" (
+CREATE TABLE IF NOT EXISTS public."Event" (
   "id"          UUID            PRIMARY KEY NOT NULL DEFAULT UUID_GENERATE_V4(),
   "name"        VARCHAR(255)    NOT NULL,
-  "description" VARCHAR(255),
+  "description" TEXT,
   "link"        VARCHAR(255),
   "startTime"   TIMESTAMP       NOT NULL,
   "endTime"     TIMESTAMP       NOT NULL,
@@ -100,14 +100,14 @@ CREATE TABLE public."Event" (
   "messageId"   VARCHAR(255)    UNIQUE
 );
 
-CREATE TABLE public."EventSubscription" (
+CREATE TABLE IF NOT EXISTS public."EventSubscription" (
   "userEmail"   VARCHAR(255)  REFERENCES "User" ("email") ON UPDATE CASCADE ON DELETE CASCADE,
   "eventId"     UUID          REFERENCES "Event" ("id") ON UPDATE CASCADE,
   "notify"      BOOLEAN       NOT NULL DEFAULT TRUE,
   CONSTRAINT "eventSubscription_pkey" PRIMARY KEY ("userEmail", "eventId")
 );
 
-CREATE TABLE public."Introduction" (
+CREATE TABLE IF NOT EXISTS public."Introduction" (
   "discordId"   VARCHAR(19)   PRIMARY KEY NOT NULL,
   "sent"        BOOLEAN       DEFAULT FALSE,
   CONSTRAINT "fk_discordId" FOREIGN KEY ("discordId") REFERENCES "User" ("discordId")
