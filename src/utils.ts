@@ -105,7 +105,7 @@ export const sendMailjet = async (templateName: ('welcome' | 'correction' | 'rem
         Email: email,
         Name: `${firstName} ${lastName}`,
         Vars: {
-          firstName: firstName,
+          firstName: firstName.trim(),
           code: joinCode,
           link: invite
         }
@@ -126,7 +126,7 @@ export const sendMailjet = async (templateName: ('welcome' | 'correction' | 'rem
   return mailer.post('send')
     .request({
       FromEmail: from,
-      FromName: 'UHS JCL SCRAM',
+      FromName: `${from === 'scram@uhsjcl.com' ? 'UHS JCL SCRAM' : 'Meghana Krishnan'}`,
       Subject: title,
       'Mj-TemplateID': emailTemplates[templateName],
       'Mj-TemplateLanguage': 'true',
