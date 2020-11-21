@@ -8,7 +8,8 @@ export default class PingCommand extends Command {
       aliases: ['hi', 'greetings', ...hello.map(greeting => greeting.hello.toLocaleLowerCase())],
       group: 'misc',
       memberName: 'ping',
-      description: 'Get a simple reply from SCRAMBot.'
+      description: 'Get a simple reply from SCRAMBot.',
+      userPermissions: ['MANAGE_GUILD']
     });
   }
 
