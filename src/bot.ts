@@ -61,7 +61,7 @@ onUnsubscribeToEvent(client);
 
 client.on('ready', () => {
   // 15 minutes before
-  cron.schedule('0,3,15,30,45,35 * * * *', async () => {
+  cron.schedule('0,3,15,30,45 * * * *', async () => {
     logger.info('Pulling for 15 minute warning.');
     const allEvents = await prisma.event.findMany();
 
@@ -91,12 +91,12 @@ client.on('ready', () => {
 
 client.on('ready', async () => {
   // now
-  cron.schedule('0 * * * *', async () => {
     logger.info('Pulling for NOW warning.');
     const allEvents = await prisma.event.findMany();
 
     allEvents.map(async event => {
       const timeUntil = (+event.startTime - +new Date()) / 60000;
+      logger.info(timeUntil);
       if (Math.abs(timeUntil) < 1) {
         const eventSubscriptions = await prisma.eventSubscription.findMany({
           where: {
@@ -116,7 +116,7 @@ client.on('ready', async () => {
         })
       }
     });
-  });
+
 });
 
 client.on('error', console.error);

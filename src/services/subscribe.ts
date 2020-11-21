@@ -55,7 +55,7 @@ export const onSubscribeToEvent = (client: CommandoClient) => {
         logger.error(`Error updating unsubscription!`)
         return;
       } else {
-        logger.info('Successfully subscribed');
+        logger.info(`${dbUser.email} successfully re-subscribed to ${dbEvent.id} (${dbEvent.name})`);
         return;
       }
     };
@@ -73,7 +73,7 @@ export const onSubscribeToEvent = (client: CommandoClient) => {
       return;
     }
 
-    logger.info(`${dbUser.email} successfully subscribed to ${dbEvent.id}`);
+    logger.info(`${dbUser.email} successfully subscribed to ${dbEvent.id} (${dbEvent.name})`);
   });
 }
 
@@ -112,6 +112,6 @@ export const onUnsubscribeToEvent = (client: CommandoClient) => {
       return;
     }
 
-    logger.info(`${dbUser.email} successfully unsubscribed to ${dbEvent.id}`);
+    logger.info(`${dbUser.email} successfully unsubscribed to ${dbEvent.id} (${dbEvent.name})`);
   });
 }

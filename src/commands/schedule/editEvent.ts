@@ -37,8 +37,6 @@ export default class EditEventCommand extends Command {
   }
 
   run = async (message: CommandoMessage, { id, property, newValue }) => {
-    const sender = message.author;
-
     let thingToUpdate;
     if (property === 'startTime' || property === 'endTime') {
       thingToUpdate = new Date(Date.parse(`November 21, 2020 ${newValue}`));
