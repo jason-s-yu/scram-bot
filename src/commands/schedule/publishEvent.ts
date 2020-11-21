@@ -1,6 +1,11 @@
 import { MessageEmbed, TextChannel } from 'discord.js';
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { prisma, scramGuild } from '../../bot';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { EVENTS_CHANNEL } = process.env;
 
 export default class PublishEventCommand extends Command {
   constructor(client) {
@@ -31,7 +36,7 @@ export default class PublishEventCommand extends Command {
 
     if (event.messageId) return message.say('Event is already published. Use !unpublish <id> to unpublish.');
 
-    const channel: TextChannel = scramGuild.channels.cache.get('762785966820950018') as TextChannel;
+    const channel: TextChannel = scramGuild.channels.cache.get(EVENTS_CHANNEL) as TextChannel;
 
     const channelMessage = channel.messages.cache.get(event.messageId);
 

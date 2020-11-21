@@ -1,7 +1,11 @@
-import { ClientUser, Message, MessageEmbed, TextChannel, User } from 'discord.js';
+import { MessageEmbed, TextChannel } from 'discord.js';
 import { Command, CommandoMessage } from 'discord.js-commando';
-import { logger } from '../../utils';
 import { prisma, scramGuild } from '../../bot';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { EVENTS_CHANNEL } = process.env;
 
 export default class EditEventCommand extends Command {
   constructor(client) {
@@ -56,7 +60,7 @@ export default class EditEventCommand extends Command {
 
     let publishStatus = false;
     if (result.messageId) {
-      const channel: TextChannel = scramGuild.channels.cache.get('762785966820950018') as TextChannel;
+      const channel: TextChannel = scramGuild.channels.cache.get(EVENTS_CHANNEL) as TextChannel;
 
       if (!channel) publishStatus = false;
       else {
