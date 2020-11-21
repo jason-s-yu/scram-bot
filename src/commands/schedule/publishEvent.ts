@@ -21,7 +21,8 @@ export default class PublishEventCommand extends Command {
           prompt: 'ID?',
           type: 'string'
         }
-      ]
+      ],
+      userPermissions: ['MANAGE_GUILD']
     });
   }
 

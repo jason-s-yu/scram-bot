@@ -21,7 +21,8 @@ export default class UnpublishEventCommand extends Command {
           prompt: 'ID?',
           type: 'string'
         }
-      ]
+      ],
+      userPermissions: ['MANAGE_GUILD']
     });
   }
 

@@ -31,7 +31,8 @@ export default class EditEventCommand extends Command {
           prompt: 'What value?',
           type: 'string'
         }
-      ]
+      ],
+      userPermissions: ['MANAGE_GUILD']
     });
   }
 

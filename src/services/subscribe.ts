@@ -15,7 +15,7 @@ export const onSubscribeToEvent = (client: CommandoClient) => {
     // check if channel exists in database (i.e. we want to listen here)
     const dbChannel = await prisma.listenChannel.findOne({ where: { channelId: reaction.message.channel.id }});
     if (!dbChannel) return;
-    if (reaction.emoji.name !== 'bell') return;
+    if (reaction.emoji.name !== '🔔') return;
 
     const dbUser = await prisma.user.findOne({ where: { discordId: user.id } });
     if (!dbUser) {
@@ -54,6 +54,9 @@ export const onSubscribeToEvent = (client: CommandoClient) => {
       if (!subscription) {
         logger.error(`Error updating unsubscription!`)
         return;
+      } else {
+        logger.info('Successfully subscribed');
+        return;
       }
     };
 
@@ -81,7 +84,7 @@ export const onUnsubscribeToEvent = (client: CommandoClient) => {
     // check if channel exists in database (i.e. we want to listen here)
     const dbChannel = await prisma.listenChannel.findOne({ where: { channelId: reaction.message.channel.id }});
     if (!dbChannel) return;
-    if (reaction.emoji.name !== 'bell') return;
+    if (reaction.emoji.name !== '🔔') return;
 
     const dbUser = await prisma.user.findOne({ where: { discordId: user.id } });
     if (!dbUser) {

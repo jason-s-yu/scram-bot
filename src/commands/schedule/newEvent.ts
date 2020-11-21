@@ -49,7 +49,8 @@ export default class NewEventCommand extends Command {
           type: 'string',
           default: 'yes'
         }
-      ]
+      ],
+      userPermissions: ['MANAGE_GUILD']
     });
   }
 
