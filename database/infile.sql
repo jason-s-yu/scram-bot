@@ -3,6 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 /* DROP TABLE IF EXISTS "User";  */
 DROP TABLE IF EXISTS "users";
 DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "Events";
 
 CREATE OR REPLACE FUNCTION "randomString"(LENGTH INTEGER) RETURNS TEXT AS
 $$
@@ -101,10 +102,10 @@ CREATE TABLE IF NOT EXISTS public."Event" (
 );
 
 CREATE TABLE IF NOT EXISTS public."EventSubscription" (
-  "userEmail"   VARCHAR(255)  REFERENCES "User" ("email") ON UPDATE CASCADE ON DELETE CASCADE,
-  "eventId"     UUID          REFERENCES "Event" ("id") ON UPDATE CASCADE,
-  "notify"      BOOLEAN       NOT NULL DEFAULT TRUE,
-  CONSTRAINT "eventSubscription_pkey" PRIMARY KEY ("userEmail", "eventId")
+  "id"          SERIAL        PRIMARY KEY NOT NULL,
+  "userEmail"   VARCHAR(255)  NOT NULL,
+  "eventId"     UUID          NOT NULL,
+  "notify"      BOOLEAN       NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS public."Introduction" (
