@@ -24,7 +24,7 @@ export default class EditEventCommand extends Command {
           key: 'property',
           prompt: 'What property to update?',
           type: 'string',
-          oneOf: ['name', 'link', 'start', 'end', 'description']
+          oneOf: ['name', 'link', 'startTime', 'endTime', 'description']
         },
         {
           key: 'newValue',
@@ -40,7 +40,7 @@ export default class EditEventCommand extends Command {
     const sender = message.author;
 
     let thingToUpdate;
-    if (property === 'start' || property === 'end') {
+    if (property === 'startTime' || property === 'endTime') {
       thingToUpdate = new Date(Date.parse(`November 21, 2020 ${newValue}`));
     }
 
