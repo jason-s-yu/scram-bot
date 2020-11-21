@@ -36,7 +36,10 @@ export default class SendGroupEmailCommand extends Command {
 
   run = async (message: CommandoMessage, { school, template, method }) => {
     logger.info(`Sending email to ${school} using ${method}.`);
-    let schoolOptions = {
+    interface SchoolOptions {
+      [key: string]: any
+    }
+    let schoolOptions: SchoolOptions = {
       school
     };
     if (school === 'all') {
@@ -48,8 +51,13 @@ export default class SendGroupEmailCommand extends Command {
             school: school.replace('!')
           }
         ]
-      } as any;
+      };
+    } else if (school === 'notjoined') {
+      delete schoolOptions.school;
+      schoolOptions['joined'] = false;
     }
+
+    logger.info(schoolOptions);
     const user = await prisma.user.findMany({
       where: {
         ...schoolOptions,
@@ -69,11 +77,11 @@ export default class SendGroupEmailCommand extends Command {
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
+      // result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...emails);
     }
-    return message.say(result ? `Sent ${user.length} emails successfully.` : `Email sending failed.`);
+    return message.say(result ? `Tested ${user.length} emails successfully.` : `Email sending failed.`);
   }
 }
