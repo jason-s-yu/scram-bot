@@ -57,7 +57,6 @@ export default class SendGroupEmailCommand extends Command {
       schoolOptions['joined'] = false;
     }
 
-    logger.info(schoolOptions.joined);
     const user = await prisma.user.findMany({
       where: {
         ...schoolOptions,
@@ -77,7 +76,7 @@ export default class SendGroupEmailCommand extends Command {
 
     let result;
     if (method === 'mailjet') {
-      // result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
+      result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...emails);
