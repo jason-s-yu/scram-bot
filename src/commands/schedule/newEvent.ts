@@ -2,6 +2,7 @@ import { MessageEmbed, TextChannel } from 'discord.js';
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { prisma, scramGuild } from '../../bot';
 import dotenv from 'dotenv';
+import { url } from 'inspector';
 
 dotenv.config();
 
@@ -79,7 +80,6 @@ export default class NewEventCommand extends Command {
         const embed = new MessageEmbed()
           .setTitle(name)
           .setDescription(description)
-          .setURL(link)
           .addFields(
             { name: 'Start Time', value: this._formatTime(result.startTime), inline: true },
             { name: 'End Time', value: this._formatTime(result.endTime), inline: true }
@@ -87,6 +87,10 @@ export default class NewEventCommand extends Command {
           .addField('Link', link)
           .addField('Subscribe', '🔔 to subscribe')
           .setFooter(result.id);
+
+        if (this._validUrl(link)) {
+          embed.setURL(link);
+        }
 
         const sentEmbed = await channel.send(embed);
 
@@ -116,5 +120,15 @@ export default class NewEventCommand extends Command {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     const strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
+  }
+
+  _validUrl = (str: string) => {
+    const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
   }
 }

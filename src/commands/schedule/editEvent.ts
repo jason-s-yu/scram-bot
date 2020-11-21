@@ -72,9 +72,12 @@ export default class EditEventCommand extends Command {
             { name: 'Start Time', value: this._formatTime(result.startTime), inline: true },
             { name: 'End Time', value: this._formatTime(result.endTime), inline: true }
           )
-          .addField('Link', result.link)
           .addField('Subscribe', '🔔 to subscribe')
           .setFooter(result.id);
+
+        if (this._validUrl(result.link)) {
+          embed.setURL(result.link);
+        }
 
         const toEdit = await channel.messages.fetch(({ around: result.messageId, limit: 1 }));
         if (toEdit) {
@@ -96,5 +99,15 @@ export default class EditEventCommand extends Command {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     const strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
+  }
+
+  _validUrl = (str: string) => {
+    const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
   }
 }
