@@ -12,8 +12,14 @@ export default class SendEmailsCommand extends Command {
         {
           key: 'template',
           type: 'string',
-          oneOf: ['welcome', 'correction'],
+          oneOf: ['welcome', 'correction', 'reminder'],
           prompt: 'Enter template'
+        },
+        {
+          key: 'fromEmail',
+          type: 'string',
+          oneOf: ['scram@uhsjcl.com', 'southernrep@cajcl.org'],
+          prompt: 'From who?'
         },
         {
           key: 'emails',
@@ -27,13 +33,13 @@ export default class SendEmailsCommand extends Command {
     });
   }
 
-  run = async (message: CommandoMessage, { template, emails }) => {
+  run = async (message: CommandoMessage, { template, fromEmail, emails }) => {
     const method = 'mailjet';
     logger.info(`Sending ${template} emails to ${emails} using ${method}.`);
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
+      result = await sendMailjet(template, fromEmail, ...emails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...emails);
