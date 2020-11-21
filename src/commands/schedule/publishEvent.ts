@@ -49,6 +49,7 @@ export default class PublishEventCommand extends Command {
         { name: 'End Time', value: this._formatTime(event.endTime), inline: true }
       )
       .addField('Link', event.link)
+      .addField('Subscribe', '🔔 to subscribe')
       .setFooter(event.id);
 
     const sentEmbed = await channel.send(embed);

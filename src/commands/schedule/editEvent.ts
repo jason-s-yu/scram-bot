@@ -73,6 +73,7 @@ export default class EditEventCommand extends Command {
             { name: 'End Time', value: this._formatTime(result.endTime), inline: true }
           )
           .addField('Link', result.link)
+          .addField('Subscribe', '🔔 to subscribe')
           .setFooter(result.id);
 
         await channel.messages.cache.get(result.messageId).edit(embed);

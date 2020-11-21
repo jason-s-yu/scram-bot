@@ -46,7 +46,7 @@ export default class NewEventCommand extends Command {
           key: 'publish',
           prompt: 'Publish?',
           type: 'string',
-          default: ''
+          default: 'yes'
         }
       ]
     });
@@ -85,9 +85,12 @@ export default class NewEventCommand extends Command {
             { name: 'End Time', value: this._formatTime(result.endTime), inline: true }
           )
           .addField('Link', link)
+          .addField('Subscribe', '🔔 to subscribe')
           .setFooter(result.id);
 
         const sentEmbed = await channel.send(embed);
+
+        await sentEmbed.react('🔔');
 
         await prisma.event.update({
           where: {
