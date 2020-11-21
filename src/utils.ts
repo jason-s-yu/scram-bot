@@ -91,7 +91,7 @@ export const sendSendGrid = async (...emails: string[]) => {
   return `Sent ${success.length} email(s) successfully. Skipped: ${skipped.length > 0 ? skipped : 'none'}.`;
 }
 
-export const sendMailjet = async (templateName: ('welcome' | 'correction'), ...emails: string[]) => {
+export const sendMailjet = async (templateName: ('welcome' | 'correction'), from: ('scram@uhsjcl.com' | 'southernrep@cajcl.org'), ...emails: string[]) => {
   const invite = (await (scramGuild.channels.cache.get('778802682185777203') as TextChannel).createInvite({ temporary: true, maxAge: 0 })).url;
   const recipients = [];
   const skipped = [];
@@ -117,7 +117,7 @@ export const sendMailjet = async (templateName: ('welcome' | 'correction'), ...e
   const mailer = mailjet.connect(MAILJET_API_KEY, MAILJET_SECRET_KEY);
   return mailer.post('send')
     .request({
-      FromEmail: 'scram@uhsjcl.com',
+      FromEmail: from,
       FromName: 'UHS JCL SCRAM',
       Subject: `Welcome to SCRAM${templateName === 'correction' ? ' - Discord Invite' : ''}`,
       'Mj-TemplateID': emailTemplates[templateName],

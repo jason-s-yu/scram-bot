@@ -28,7 +28,7 @@ client.once('ready', async () => {
 
 onMemberJoinForAuthentication(client);
 onMemberLeave(client);
-onMemberSendGreeting(client);
+// onMemberSendGreeting(client);
 
 client.on('error', console.error);
 

@@ -1,8 +1,7 @@
 import { Command, CommandoMessage } from 'discord.js-commando';
 import { prisma } from '../../bot';
-import { logger, sendMailjet, sendSendGrid } from '../../utils';
 
-export default class AdjustEmailCommand extends Command {
+export default class LinkEmailCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'update',

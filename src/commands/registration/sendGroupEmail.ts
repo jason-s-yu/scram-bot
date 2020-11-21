@@ -69,7 +69,7 @@ export default class SendGroupEmailCommand extends Command {
 
     let result;
     if (method === 'mailjet') {
-      result = await sendMailjet(template, ...emails);
+      result = await sendMailjet(template, 'southernrep@cajcl.org', ...emails);
     }
     else if (method === 'sendgrid') {
       result = await sendSendGrid(...emails);
