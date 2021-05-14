@@ -12,7 +12,6 @@
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
-    "@prisma/cli": "2.11.0",
     "@types/node": "^14.14.7",
     "@types/node-cron": "^2.0.3",
     "@types/winston": "^2.4.4",
@@ -22,13 +21,14 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "merge-stream": "^2.0.0",
     "nodemon": "^2.0.6",
+    "prisma": "^2.22.1",
     "regenerator-runtime": "^0.13.7",
     "ts-node": "^9.0.0",
     "ts-node-dev": "^1.0.0",
     "typescript": "^4.0.5"
   },
   "dependencies": {
-    "@prisma/client": "2.11.0",
+    "@prisma/client": "2.22.1",
     "@sendgrid/mail": "^7.4.0",
     "@types/node-mailjet": "^3.3.4",
     "common-tags": "^1.8.0",
@@ -44,7 +44,7 @@
     "dev": "nodemon",
     "build": "gulp",
     "serve": "node dist/src/bot",
-    "postinstall": "npx prisma generate",
-    "regenerate": "npx prisma introspect && rm -rf node_modules && yarn install"
+    "postinstall": "prisma generate",
+    "regenerate": "prisma introspect && rm -rf node_modules && yarn install"
   }
 }
